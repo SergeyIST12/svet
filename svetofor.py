@@ -18,6 +18,7 @@ sound = DummySound()
 #sound = pygame.mixer.Sound("sound.mp3")
 #sound.set_volume(0.1)  # Устанавливаем уровень громкости на 30%
 
+# 👩‍💼 Сергей (тимлид) — начало
 # Создаем главное окно
 root = tk.Tk()
 root.title("Симуляция светофора")
@@ -32,8 +33,9 @@ main_frame.pack(fill="both", expand=True)
 
 # Создаем панель меню слева
 menu_frame = tk.Frame(main_frame, bg="lightgrey", width=200)
-menu_frame.pack(side="left", fill="y")
+# 👩‍💼 Сергей (тимлид) — конец
 
+# 🧪 Дина (инженер тестировщик) — начало
 # Переменные для таймера и состояния светофора
 pedestrian_light_state = "red"
 driver_light_state = "green"
@@ -58,16 +60,20 @@ pedestrians = []
 pedestrian_spawn_interval = 5  # секунды между появлением новых пешеходов
 last_pedestrian_spawn_time = 0
 max_pedestrians = 7  # Максимальное количество пешеходов
+# 🧪 Дина (инженер тестировщик) — конец
 
+# 👨‍🎓 Иван Рыков — начало
 # Загрузка изображений машин
 for i in range(1, 5):  # Увеличим количество изображений машин
-    image = Image.open(f"F:/Py prroject/home work ppy/Svetofor/assets/cars/car{i}.png")
+    image = Image.open(f"F:/Py prroject/home work ppy/Svetofor/assets/cars/car{i}.png") 
     image = image.resize((200, 100), Image.LANCZOS)
     car_images.append(ImageTk.PhotoImage(image))
     flipped_image = image.transpose(Image.FLIP_LEFT_RIGHT)
     car_images.append(ImageTk.PhotoImage(flipped_image))
+# 👨‍🎓 Иван Рыков — конец
 
 
+# 👨‍💻 Марсель — начало
 class Car:
     def __init__(self, canvas, x, y, direction, image):
         self.canvas = canvas
@@ -129,8 +135,10 @@ class Car:
                 if (pedestrian.x - (self.x + 250) < 100 and self.x < pedestrian.x) and abs(self.y - pedestrian.y) < 50:
                     return True
         return False
+# 👨‍💻 Марсель — конец
 
 
+# 👩‍🎓 Аня — начало
 class Pedestrian:
     def __init__(self, canvas, image_path, x, y):
         self.canvas = canvas
@@ -190,8 +198,10 @@ class Pedestrian:
                 self.y -= self.current_speed
             else:
                 self.state = "crossed"
+# 👩‍🎓 Аня — конец
 
 
+# 👩‍🎓 Аня — начало
 def load_pedestrian_models(canvas):
     global pedestrians, last_pedestrian_spawn_time
     pedestrians = []  # Очищаем список пешеходов перед загрузкой новых
@@ -210,8 +220,10 @@ def load_pedestrian_models(canvas):
         pedestrians.append(pedestrian)
 
     last_pedestrian_spawn_time = time.time()
+# 👩‍🎓 Аня — конец
 
 
+# 👩‍💼 Сергей (тимлид) — начало
 # Функции для кнопок
 def start_simulation():
     global timer_running, simulation_started, last_update_time, last_car_spawn_time, pedestrians
@@ -271,8 +283,10 @@ def stop_simulation():
     pedestrians = []
     sound.stop()  # Останавливаем звук при завершении симуляции
     print("Симуляция завершена")
+# 👩‍💼 Сергей (тимлид) — конец
 
 
+# 🧪 Дина (инженер тестировщик) — начало
 def open_settings():
     global green_duration, red_duration
     settings_window = tk.Toplevel(root)
@@ -309,11 +323,13 @@ def open_settings():
             messagebox.showerror("Ошибка", "Пожалуйста, введите положительные целые числа (отличные от нуля)")
 
     tk.Button(settings_window, text="Сохранить", command=save_settings).grid(row=2, column=0, columnspan=2, pady=10)
+# 🧪 Дина (инженер тестировщик) — конец
 
 def exit_application():
     if messagebox.askokcancel("Выход", "Вы уверены, что хотите выйти?"):
         root.quit()
 
+# 👩‍💻 Дарья Лексина — начало
 # Кнопки в меню
 buttons = {
     "Начать симуляцию": start_simulation,
@@ -328,7 +344,9 @@ buttons = {
 for btn_text, func in buttons.items():
     button = tk.Button(menu_frame, text=btn_text, command=func, font=("Arial", 12), height=2, width=20)
     button.pack(pady=5)
+# 👩‍💻 Дарья Лексина — конец
 
+# 👨‍💻 Никита Лаптев — начало
 # Поле для симуляции
 canvas = tk.Canvas(main_frame, bg="white")
 canvas.pack(side="right", fill="both", expand=True)
@@ -337,8 +355,10 @@ canvas.pack(side="right", fill="both", expand=True)
 background_image = Image.open(r"F:\Py prroject\home work ppy\Svetofor\assets\bg\fon.png")
 
 background_photo = ImageTk.PhotoImage(background_image)
+# 👨‍💻 Никита Лаптев — конец
 
 
+# 👨‍💻 Никита Лаптев — начало
 # Создаем разметку дороги и перехода
 def draw_road():
     canvas_width = canvas.winfo_width()
@@ -380,8 +400,10 @@ def draw_crosswalk():
                        width=5, tags="stop_line")  # Изменено положение левой стоп-линии
     canvas.create_line(right_stop_line_x, crosswalk_start_y, right_stop_line_x, canvas_height // 2, fill="white",
                        width=5, tags="stop_line")  # Изменено положение правой стоп-линии
+# 👨‍💻 Никита Лаптев — конец
 
 
+# 👩‍🎓 Аня — начало
 def start_pedestrian_timer():
     global pedestrian_light_state, timer_value, waiting_for_green, timer_running
     if not simulation_started:
@@ -394,8 +416,10 @@ def start_pedestrian_timer():
         waiting_for_green = True
         timer_value = red_duration
         update_lights()
+# 👩‍🎓 Аня — конец
 
 
+# 👨‍💻 Никита Кочнев — начало
 def update_lights():
     global timer_value, pedestrian_light_state, driver_light_state, timer_text_id, waiting_for_green, timer_running, last_update_time
     canvas.delete("pedestrian_light", "driver_light")
@@ -440,7 +464,10 @@ def update_lights():
             pedestrian.waiting = False
         pedestrian.move()
     pedestrians[:] = [p for p in pedestrians if p.state != "crossed"]
+# 👨‍💻 Никита Кочнев — конец
 
+
+# 👩‍💻 Дарья Лексина — начало
     if timer_running or pedestrian_light_state == "green":
         color = "green" if pedestrian_light_state == "green" else "red"
         if timer_text_id is None:
@@ -451,7 +478,10 @@ def update_lights():
     else:
         if timer_text_id is not None:
             canvas.itemconfigure(timer_text_id, text=f"{timer_value:.1f}")
+# 👩‍💻 Дарья Лексина — конец
 
+
+# 👨‍💻 Никита Кочнев — начало
     if timer_running:
         canvas.after(100, update_lights)
     else:
@@ -467,22 +497,29 @@ def update_lights():
                                pedestrian_light_y + 40, fill="black", tags="pedestrian_light")
             canvas.create_oval(pedestrian_light_x + 115, pedestrian_light_y + 5, pedestrian_light_x + 150,
                                pedestrian_light_y + 40, fill="green", tags="pedestrian_light")
+# 👨‍💻 Никита Кочнев — конец
 
+
+# 👨‍💻 Никита Лаптев — начало
     # Устанавливаем порядок слоев
     canvas.tag_raise("traffic_light")
     canvas.tag_raise("timer")
     canvas.tag_raise("pedestrian_light")
     canvas.tag_raise("driver_light")
+# 👨‍💻 Никита Лаптев — конец
 
 
+# 👩‍💻 Дарья Лексина — начало
 # Добавляем кнопку для пешеходного светофора
 button_frame = tk.Frame(menu_frame)
 button_frame.pack(pady=20)
 
 pedestrian_button = tk.Button(button_frame, text="Переключить пешеходный свет", command=start_pedestrian_timer)
 pedestrian_button.pack()
+# 👩‍💻 Дарья Лексина — конец
 
 
+# 👨‍💻 Никита Лаптев — начало
 # Функция для отрисовки светофоров
 def draw_traffic_lights():
     global pedestrian_light_x, pedestrian_light_y, driver_light_x_left, driver_light_x_right, driver_light_y
@@ -523,8 +560,10 @@ def draw_driver_lights():
                            fill="yellow" if driver_light_state == "yellow" else "black", tags="driver_light")
         canvas.create_oval(x + 5, driver_light_y + 65, x + 25, driver_light_y + 85,
                            fill="green" if driver_light_state == "green" else "black", tags="driver_light")
+# 👨‍💻 Никита Лаптев — конец
 
 
+# 👨‍💻 Никита Лаптев — начало
 # Функция для обновления размеров при изменении размера окна
 def update_canvas(event):
     canvas.delete("all")
@@ -551,12 +590,16 @@ def update_canvas(event):
     canvas.tag_raise("timer")
     canvas.tag_raise("pedestrian_light")
     canvas.tag_raise("driver_light")
+# 👨‍💻 Никита Лаптев — конец
 
 
+# 👨‍💻 Никита Лаптев — начало
 # Привязываем функцию обновления к изменению размеров окна
 canvas.bind("<Configure>", update_canvas)
+# 👨‍💻 Никита Лаптев — конец
 
 
+# 👨‍💻 Никита Кочнев — начало
 def spawn_cars():
     global last_car_spawn_time
     if not simulation_started or not timer_running:
@@ -585,8 +628,10 @@ def spawn_cars():
 
     if timer_running:
         canvas.after(1000, spawn_cars)
+# 👨‍💻 Никита Кочнев — конец
 
 
+# 👨‍🎓 Иван Рыков — начало
 def spawn_pedestrians():
     global last_pedestrian_spawn_time, pedestrians
     if not simulation_started or not timer_running:
@@ -614,8 +659,10 @@ def spawn_pedestrians():
 
     if timer_running:
         canvas.after(1000, spawn_pedestrians)
+# 👨‍🎓 Иван Рыков — конец
 
 
+# 👨‍💻 Марсель — начало
 def move_cars():
     if not simulation_started or not timer_running:
         return
@@ -657,7 +704,10 @@ def move_cars():
 
     if timer_running:
         canvas.after(50, move_cars)
+# 👨‍💻 Марсель — конец
 
+
+# 👩‍💼 Сергей (тимлид) — начало
 # Рисуем все элементы
 draw_road()
 draw_crosswalk()
@@ -665,3 +715,4 @@ draw_traffic_lights()
 
 # Запускаем основной цикл приложения
 root.mainloop()
+# 👩‍💼 Сергей (тимлид) — конец

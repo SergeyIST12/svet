@@ -267,7 +267,6 @@ def stop_simulation():
     for pedestrian in pedestrians:
         canvas.delete(pedestrian.id)
     pedestrians = []
-    sound.stop()
     print("Симуляция завершена")
 # 👩‍💼 Сергей (тимлид) — конец
 
@@ -425,7 +424,6 @@ def update_lights():
                 canvas.delete("pedestrian_light")
                 canvas.create_oval(pedestrian_light_x + 115, pedestrian_light_y + 5, pedestrian_light_x + 150,
                                    pedestrian_light_y + 40, fill="green", tags="pedestrian_light")
-                sound.play(loops=-1)
     elif pedestrian_light_state == "green":
         canvas.create_oval(pedestrian_light_x + 115, pedestrian_light_y + 5, pedestrian_light_x + 150,
                            pedestrian_light_y + 40, fill="green", tags="pedestrian_light")
@@ -436,7 +434,6 @@ def update_lights():
                 driver_light_state = "green"
                 timer_value = 0
                 waiting_for_green = False
-                sound.stop()
 
     # Обновляем светофоры для водителей
     draw_driver_lights()
